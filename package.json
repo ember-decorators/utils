@@ -1,5 +1,5 @@
 {
-  "name": "ember-decorator-utils",
+  "name": "@ember-decorators/utils",
   "version": "0.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
@@ -18,6 +18,8 @@
     "test": "ember try:each"
   },
   "dependencies": {
+    "babel-plugin-filter-imports": "^1.0.4",
+    "broccoli-funnel": "^2.0.1",
     "ember-cli-babel": "^6.3.0"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@ class FieldValidations {
       this.isRequired = false;
       this.isImmutable = false;
       this.isArgument = false;
+      this.isAttribute = false;
       this.typeRequired = false;
 
       this.typeValidators = [];
@@ -14,6 +15,7 @@ class FieldValidations {
         isRequired,
         isImmutable,
         isArgument,
+        isAttribute,
         typeRequired,
         typeValidators
       } = parentValidations;
@@ -21,6 +23,7 @@ class FieldValidations {
       this.isRequired = isRequired;
       this.isImmutable = isImmutable;
       this.isArgument = isArgument;
+      this.isAttribute = isAttribute;
       this.typeRequired = typeRequired;
 
       this.typeValidators = typeValidators.slice();

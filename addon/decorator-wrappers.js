@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import isDescriptor from './is-descriptor';
 import normalizeDescriptor from './normalize-descriptor';
 

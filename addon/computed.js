@@ -23,7 +23,12 @@ export function computedDecorator(fn) {
     if (HAS_NATIVE_COMPUTED_GETTERS) {
       Ember.defineProperty(target, key, computedDesc);
     } else {
-      Object.defineProperty(target, key, { value: computedDesc });
+      Object.defineProperty(target, key, {
+        configurable: true,
+        writable: true,
+        enumerable: true,
+        value: computedDesc
+      });
     }
 
     // There's currently no way to disable redefining the property when decorators

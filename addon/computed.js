@@ -20,16 +20,19 @@ export function computedDecorator(fn) {
 
     assert(`computed decorators must return an instance of an Ember ComputedProperty descriptor, received ${computedDesc}`, isComputedDescriptor(computedDesc));
 
-    if (HAS_NATIVE_COMPUTED_GETTERS) {
-      Ember.defineProperty(target, key, computedDesc);
-    } else {
+    if (!HAS_NATIVE_COMPUTED_GETTERS) {
+      // Until recent versions of Ember, computed properties would be defined
+      // by just setting them. We need to blow away any predefined properties
+      // (getters/setters, etc.) to allow Ember.defineProperty to work correctly.
       Object.defineProperty(target, key, {
         configurable: true,
         writable: true,
         enumerable: true,
-        value: computedDesc
+        value: undefined
       });
     }
+
+    Ember.defineProperty(target, key, computedDesc);
 
     // There's currently no way to disable redefining the property when decorators
     // are run, so return the property descriptor we just assigned

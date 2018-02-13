@@ -5,7 +5,13 @@ import { assert } from '@ember/debug';
 
 const DESCRIPTOR = '__DESCRIPTOR__';
 
-export function isDescriptorTrap(possibleDesc) {
+function isCPGetter(getter) {
+  // Hack for descriptor traps, we want to be able to tell if the function
+  // is a descriptor trap before we call it at all
+  return getter.toString().includes('CPGETTER_FUNCTION');
+}
+
+function isDescriptorTrap(possibleDesc) {
   if (HAS_DESCRIPTOR_TRAP && DEBUG) {
     return possibleDesc !== null && typeof possibleDesc === 'object' && possibleDesc[DESCRIPTOR] !== undefined;
   } else {
@@ -29,10 +35,14 @@ export function computedDescriptorFor(obj, keyName) {
       return meta.peekDescriptors(keyName);
     }
   } else if (Object.hasOwnProperty.call(obj, keyName)) {
-    let { value: possibleDesc } = Object.getOwnPropertyDescriptor(obj, keyName);
+    let { value: possibleDesc, get: possibleCPGetter } = Object.getOwnPropertyDescriptor(obj, keyName);
 
-    if (DEBUG && HAS_DESCRIPTOR_TRAP && isDescriptorTrap(possibleDesc)) {
-      return possibleDesc[DESCRIPTOR];
+    if (DEBUG && HAS_DESCRIPTOR_TRAP && isCPGetter(possibleCPGetter)) {
+      possibleDesc = possibleCPGetter.call(obj);
+
+      if(isDescriptorTrap(possibleDesc)) {
+        return possibleDesc[DESCRIPTOR];
+      }
     }
 
     return isComputedDescriptor(possibleDesc) ? possibleDesc : undefined;

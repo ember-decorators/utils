@@ -15,7 +15,9 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:each"
+    "test": "ember try:each",
+    "prepublishOnly": "ember ts:precompile",
+    "postpublish": "ember ts:clean"
   },
   "dependencies": {
     "@ember-decorators/babel-transforms": "^0.1.1",
@@ -23,6 +25,11 @@
     "ember-compatibility-helpers": "1.0.0-beta.1"
   },
   "devDependencies": {
+    "@types/ember": "^2.8.9",
+    "@types/ember-data": "^2.14.8",
+    "@types/ember-test-helpers": "^0.7.0",
+    "@types/ember-testing-helpers": "^0.0.3",
+    "@types/rsvp": "^4.0.1",
     "babel-eslint": "^8.2.1",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.0.0",
@@ -35,6 +42,7 @@
     "ember-cli-qunit": "^4.0.0",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-typescript": "^1.1.1",
     "ember-cli-uglify": "^2.0.0",
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
@@ -42,7 +50,8 @@
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.16.0",
     "ember-source-channel-url": "^1.0.1",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "typescript": "^2.7.1"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"

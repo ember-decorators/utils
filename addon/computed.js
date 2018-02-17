@@ -1,3 +1,4 @@
+import { defineProperty } from '@ember/object';
 import { decoratorWithParams, decoratorWithRequiredParams } from './decorator';
 import { computedDescriptorFor, isComputedDescriptor } from './-private';
 import { HAS_NATIVE_COMPUTED_GETTERS } from 'ember-compatibility-helpers';
@@ -32,7 +33,7 @@ export function computedDecorator(fn) {
       });
     }
 
-    Ember.defineProperty(target, key, computedDesc);
+    defineProperty(target, key, computedDesc);
 
     // There's currently no way to disable redefining the property when decorators
     // are run, so return the property descriptor we just assigned

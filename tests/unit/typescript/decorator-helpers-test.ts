@@ -100,5 +100,18 @@ module('decorator helpers - typescript', function() {
         /Cannot decorate member 'foo' without parameters/
       );
     });
+
+    test('it works on fields', function(assert) {
+      assert.expect(2);
+
+      let decorate = decoratorWithParams((target, key, desc, params) => {
+        assert.ok(true, 'decorator called');
+      });
+
+      class Foo {
+        @decorate bar;
+        @decorate('foo') baz;
+      }
+    });
   });
 });

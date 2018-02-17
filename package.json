@@ -1,6 +1,6 @@
 {
   "name": "@ember-decorators/utils",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"

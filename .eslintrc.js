@@ -46,5 +46,8 @@ module.exports = {
         // add your custom rules and overrides for node files here
       })
     }
-  ]
+  ],
+  globals: {
+    'Ember': true
+  }
 };

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
+import { alias as emberAlias } from '@ember/object/computed';
 import { computed } from '@ember-decorators/utils/compatibility';
-import { computedDecorator } from '@ember-decorators/utils/computed';
+import { computedDecorator, computedDecoratorWithRequiredParams } from '@ember-decorators/utils/computed';
 import { computedDescriptorFor, isComputedDescriptor } from '@ember-decorators/utils/-private';
 
 module('computed decorator helpers', function() {
@@ -20,6 +21,31 @@ module('computed decorator helpers', function() {
       }
 
       assert.ok(isComputedDescriptor(computedDescriptorFor(Foo.prototype, 'foo')), 'descriptor correctly assigned');
+    });
+
+    test('it works on fields', function(assert) {
+      let alias = computedDecoratorWithRequiredParams((target, key, desc, params) => {
+        return emberAlias(...params);
+      });
+
+      class Foo {
+        @alias('foo') bar;
+      }
+
+      assert.ok(isComputedDescriptor(computedDescriptorFor(Foo.prototype, 'bar')), 'descriptor correctly assigned');
+    });
+
+    test('it works on functions', function(assert) {
+      let alias = computedDecoratorWithRequiredParams((target, key, desc, params) => {
+        return emberAlias(...params);
+      });
+
+      class Foo {
+        @alias('foo')
+        bar() {} // contrived example, it does happen
+      }
+
+      assert.ok(isComputedDescriptor(computedDescriptorFor(Foo.prototype, 'bar')), 'descriptor correctly assigned');
     });
 
     test('it passes in the previous computed descriptor if it exists', function(assert) {

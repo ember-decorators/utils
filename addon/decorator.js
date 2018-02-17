@@ -1,5 +1,25 @@
 import { assert } from '@ember/debug';
-import isDescriptor from './is-descriptor';
+
+function isDescriptor(possibleDesc) {
+  if (possibleDesc.length === 3) {
+    let [target, key, desc] = possibleDesc;
+
+    return typeof target === 'object'
+      && target !== null
+      && typeof key === 'string'
+      && (
+        (
+          typeof desc === 'object'
+          && desc !== null
+          && 'enumerable' in desc
+          && 'configurable' in desc
+        )
+        || desc === undefined // TS compatibility
+      );
+  }
+
+  return false;
+}
 
 /**
  * A macro that takes a decorator function and allows it to optionally
@@ -21,7 +41,7 @@ import isDescriptor from './is-descriptor';
 export function decoratorWithParams(fn) {
   return function(...params) {
     // determine if user called as @computed('blah', 'blah') or @computed
-    if (isDescriptor(params[params.length - 1])) {
+    if (isDescriptor(params)) {
       return fn(...params, []);
     } else {
       return function(target, key, desc) {
@@ -50,7 +70,7 @@ export function decoratorWithParams(fn) {
  */
 export function decoratorWithRequiredParams(fn) {
   return function(...params) {
-    assert(`Cannot decorate member '${params[1]}' without parameters`, !isDescriptor(params[params.length - 1]));
+    assert(`Cannot decorate member '${params[1]}' without parameters`, !isDescriptor(params));
 
     return function(target, key, desc) {
       assert(`Cannot decorate member '${key}' without parameters`, params.length > 0)

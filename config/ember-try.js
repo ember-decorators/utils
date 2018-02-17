@@ -1,4 +1,5 @@
-/* eslint-env node */
+'use strict';
+
 const getChannelURL = require('ember-source-channel-url');
 
 module.exports = function() {
@@ -99,6 +100,14 @@ module.exports = function() {
           npm: {
             devDependencies: {
               'ember-source': '~2.16.0'
+            }
+          }
+        },
+        {
+          name: 'ember-lts-2.18',
+          npm: {
+            devDependencies: {
+              'ember-source': '~2.18.0'
             }
           }
         },

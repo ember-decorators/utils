@@ -8,7 +8,7 @@ const DESCRIPTOR = '__DESCRIPTOR__';
 function isCPGetter(getter) {
   // Hack for descriptor traps, we want to be able to tell if the function
   // is a descriptor trap before we call it at all
-  return getter !== null && typeof getter === 'function' && getter.toString().includes('CPGETTER_FUNCTION');
+  return getter !== null && typeof getter === 'function' && getter.toString().indexOf('CPGETTER_FUNCTION') !== -1;
 }
 
 function isDescriptorTrap(possibleDesc) {
